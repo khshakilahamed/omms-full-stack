@@ -50,11 +50,52 @@ model MealItem {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  riceAvailableMeals       AvailableMealPerDay[] @relation("RiceRelation")
+  proteinAvailableMeals    AvailableMealPerDay[] @relation("ProteinMealRelation")
+  otherItem1AvailableMeals AvailableMealPerDay[] @relation("OtherItem1Relation")
+  otherItem2AvailableMeals AvailableMealPerDay[] @relation("OtherItem2Relation")
+  otherItem3AvailableMeals AvailableMealPerDay[] @relation("OtherItem3Relation")
+
   @@unique([name, mealCategoryId])
   @@map("meal_items")
+}
+
+model AvailableMealPerDay {
+  id      String @id @default(uuid())
+  dayName DAY_LIST @unique @map("day_name")
+
+  riceId String
+  rice   MealItem @relation("RiceRelation", fields: [riceId], references: [id])
+
+  proteinMealId String
+  proteinMeal   MealItem @relation("ProteinMealRelation", fields: [proteinMealId], references: [id])
+
+  otherItemId1 String?
+  otherItem1   MealItem? @relation("OtherItem1Relation", fields: [otherItemId1], references: [id])
+
+  otherItemId2 String?
+  otherItem2   MealItem? @relation("OtherItem2Relation", fields: [otherItemId2], references: [id])
+
+  otherItemId3 String?
+  otherItem3   MealItem? @relation("OtherItem3Relation", fields: [otherItemId3], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("available_meal_per_day")
 }
 
 enum USER_ROLE {
   admin
   general_user
+}
+
+enum DAY_LIST {
+  saturday
+  sunday
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
 }
