@@ -1,4 +1,4 @@
 
-exports.mealItemSearchableFields = ['name'];
+exports.availableMealPerDaySearchableFields = ['dayName'];
 
-exports.mealItemFilterableFields = ['searchTerm', 'id', 'name'];
+exports.availableMealPerDayFilterableFields = ['searchTerm', 'id', 'dayName'];

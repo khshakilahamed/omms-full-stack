@@ -2,7 +2,7 @@ const httpStatus = require("http-status");
 const sendResponse = require("../../../shared/sendResponse");
 const { pick } = require("../../../shared/pick");
 const { createAvailableMealPerDay, getAllAvailableMealsPerDay, getAvailableMealPerDayById, updateAvailableMealPerDayById, deleteAvailableMealPerDayItem } = require("./availableMealPerDay.service");
-const { mealItemFilterableFields } = require("./availableMealPerDay.constant");
+const { availableMealPerDayFilterableFields } = require("./availableMealPerDay.constant");
 
 exports.createAvailableMealPerDay = async (req, res, next) => {
       try {
@@ -21,7 +21,7 @@ exports.createAvailableMealPerDay = async (req, res, next) => {
 
 exports.getAllAvailableMealsPerDay = async (req, res, next) => {
       try {
-            const filters = pick(req.query, mealItemFilterableFields);
+            const filters = pick(req.query, availableMealPerDayFilterableFields);
             const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
             const result = await getAllAvailableMealsPerDay(filters, options);
 
