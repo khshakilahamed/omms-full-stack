@@ -1,9 +1,8 @@
-import { prisma } from '../../../shared/prisma';
 
-const createUser = async (payload) => {
 
+exports.createUser = async (payload) => {
+
+  console.log("create user service")
+
+  return "create user"
 };
-
-exports.userService = {
-  createUser
-}
