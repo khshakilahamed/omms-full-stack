@@ -13,3 +13,7 @@ exports.userSelectOptions = {
   createdAt: true,
   updatedAt: true,
 };
+
+exports.serviceSearchableFields = ['name', 'email'];
+
+exports.serviceFilterableFields = ['searchTerm', 'id', 'email', 'role', 'isBanned'];

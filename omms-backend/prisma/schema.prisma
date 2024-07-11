@@ -17,7 +17,7 @@ model User {
   id       String    @id @default(uuid())
   name     String
   email    String    @unique
-  role     USER_ROLE
+  role     USER_ROLE @default(general_user)
   password String
   image    String?
   isBanned Boolean   @default(false)
