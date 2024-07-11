@@ -3,6 +3,7 @@ const cors = require("cors");
 const httpStatus = require("http-status");
 const userRoutes = require("./app/modules/user/user.route");
 const mealCategoryRoutes = require("./app/modules/mealCategory/mealCategory.route");
+const mealItemRoutes = require("./app/modules/mealItems/mealItems.route");
 const globalErrorHandler = require("./app/middlewares/globalErrorHandler");
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/user", userRoutes);
 app.use("/api/meal-category", mealCategoryRoutes);
+app.use("/api/meal-item", mealItemRoutes);
 
 // Root Route
 app.get("/", (req, res) => {

@@ -29,13 +29,29 @@ model User {
 }
 
 model MealCategory {
-  id           String @id @default(uuid())
-  name String @unique @map("category_name")
+  id   String @id @default(uuid())
+  name String @unique
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  mealItems MealItem[]
+
   @@map("meal_categories")
+}
+
+model MealItem {
+  id   String @id @default(uuid())
+  name String
+
+  mealCategoryId String       @map("meal_category_id")
+  mealCategory   MealCategory @relation(fields: [mealCategoryId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([name, mealCategoryId])
+  @@map("meal_items")
 }
 
 enum USER_ROLE {

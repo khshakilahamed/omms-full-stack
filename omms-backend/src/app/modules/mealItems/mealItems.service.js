@@ -1,31 +1,41 @@
 const httpStatus = require("http-status");
 const ApiError = require("../../../errors/ApiError");
 const prisma = require("../../../shared/prisma");
-const { mealCategorySearchableFields } = require("./mealCategory.constant");
 const paginationHelpers = require("../../../helpers/paginationHelper");
+const { mealItemSearchableFields } = require("./mealItems.constant");
 
-exports.createMealCategory = async (payload) => {
-  const isExistMealCategory = await prisma.mealCategory.findFirst({
+exports.createMealItem = async (payload) => {
+  const { name, mealCategoryId } = payload;
+
+  if (!name || !mealCategoryId) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Meal name and category ID are required');
+  }
+
+  const isExistMealItem = await prisma.mealItem.findFirst({
     where: {
       name: {
-        equals: payload?.name,
+        equals: name,
         mode: 'insensitive'
-      }
+      },
+      mealCategoryId: mealCategoryId
     },
   });
 
-  if (isExistMealCategory) {
-    throw new ApiError(httpStatus.CONFLICT, 'Meal category already exist');
+  if (isExistMealItem) {
+    throw new ApiError(httpStatus.CONFLICT, 'Meal already exist');
   }
 
-  const result = await prisma.mealCategory.create({
-    data: payload
-  })
+  const result = await prisma.mealItem.create({
+    data: {
+      name,
+      mealCategoryId
+    }
+  });
 
   return result
 };
 
-exports.getAllMealCategories = async (filters, options) => {
+exports.getAllMealItems = async (filters, options) => {
   const { limit, page, skip, sortBy, sortOrder } = paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = filters;
 
@@ -33,7 +43,7 @@ exports.getAllMealCategories = async (filters, options) => {
 
   if (searchTerm) {
     andConditions.push({
-      OR: mealCategorySearchableFields.map(field => ({
+      OR: mealItemSearchableFields.map(field => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
@@ -57,7 +67,10 @@ exports.getAllMealCategories = async (filters, options) => {
 
   const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.mealCategory.findMany({
+  const result = await prisma.mealItem.findMany({
+    include: {
+      mealCategory: true
+    },
     where: whereConditions,
     skip,
     take: limit,
@@ -66,7 +79,7 @@ exports.getAllMealCategories = async (filters, options) => {
     },
   });
 
-  const total = await prisma.mealCategory.count({ where: whereConditions });
+  const total = await prisma.mealItem.count({ where: whereConditions });
 
   return {
     meta: {
@@ -78,8 +91,11 @@ exports.getAllMealCategories = async (filters, options) => {
   };
 };
 
-exports.getMealCategoryById = async (id) => {
-  const result = await prisma.mealCategory.findUnique({
+exports.getMealItemById = async (id) => {
+  const result = await prisma.mealItem.findUnique({
+    include: {
+      mealCategory: true
+    },
     where: {
       id,
     },
@@ -88,8 +104,8 @@ exports.getMealCategoryById = async (id) => {
   return result;
 }
 
-exports.updateMealCategoryById = async (id, payload) => {
-  const isExistMealCategory = await prisma.mealCategory.findUnique({
+exports.updateMealItemById = async (id, payload) => {
+  const isExistMealCategory = await prisma.mealItem.findUnique({
     where: {
       id,
     },
@@ -99,7 +115,7 @@ exports.updateMealCategoryById = async (id, payload) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'Meal Category does not exist');
   }
 
-  const result = await prisma.mealCategory.update({
+  const result = await prisma.mealItem.update({
     where: {
       id,
     },
@@ -109,8 +125,8 @@ exports.updateMealCategoryById = async (id, payload) => {
   return result;
 }
 
-exports.deleteMealCategory = async (id) => {
-  const result = await prisma.mealCategory.delete({
+exports.deleteMealItem = async (id) => {
+  const result = await prisma.mealItem.delete({
     where: {
       id: id
     }
