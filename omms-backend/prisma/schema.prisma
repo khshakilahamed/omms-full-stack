@@ -28,6 +28,16 @@ model User {
   @@map("users")
 }
 
+model MealCategory {
+  id           String @id @default(uuid())
+  name String @unique @map("category_name")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("meal_categories")
+}
+
 enum USER_ROLE {
   admin
   general_user

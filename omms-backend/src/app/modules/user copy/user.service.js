@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 const ApiError = require("../../../errors/ApiError");
 const hashPasswordHelpers = require("../../../helpers/hashPasswordHelpers");
-const prisma = require("./../../../shared/prisma");
+const prisma = require("../../../shared/prisma");
 const userUtils = require("./user.utils");
 const { userSelectOptions, serviceSearchableFields } = require("./user.constant");
 const paginationHelpers = require("../../../helpers/paginationHelper");
