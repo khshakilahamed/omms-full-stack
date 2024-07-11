@@ -14,7 +14,6 @@ const verifyToken = (token, secret) => {
         return jwt.verify(token, secret);
     } catch (error) {
         if (error?.message === "jwt expired") {
-            //! Don't change this message, it is used in the axios for new access token
             throw new ApiError(httpStatus.UNAUTHORIZED, "jwt expired");
         }
         // throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error by kh.");

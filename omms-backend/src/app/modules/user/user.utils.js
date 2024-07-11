@@ -1,25 +1,18 @@
-import { USER_ROLE } from '@prisma/client';
-import prisma from '../../../shared/prisma';
-import { hashPasswordHelpers } from '../../../helpers/hashPasswordHelpers';
-import httpStatus from 'http-status';
-import ApiError from '../../../errors/ApiError';
-import { CreateUserType, IsUserExistType } from './user.interface';
-import { userSelectOptions } from './user.constant';
+const ApiError = require("../../../errors/ApiError");
+const prisma = require("./../../../shared/prisma")
 
-const isExistUser = async (email: string): Promise<IsUserExistType | null> => {
+
+const isExistUser = async (email) => {
   const user = await prisma.user.findFirst({
     where: {
       email,
-    },
-    include: {
-      role: true,
-    },
+    }
   });
 
   return user;
 };
 
-const userRole = async (role: USER_ROLE) => {
+const userRole = async (role) => {
   const result = await prisma.role.findUnique({
     where: {
       title: role,
@@ -29,7 +22,7 @@ const userRole = async (role: USER_ROLE) => {
   return result;
 };
 
-const createAgent = async (payload: CreateUserType) => {
+const createAgent = async (payload) => {
   const { password, roleId, ...othersData } = payload;
 
   const isExistUser = await UserUtils.isExistUser(payload.email);
@@ -63,4 +56,6 @@ const createAgent = async (payload: CreateUserType) => {
   return result;
 };
 
-export const UserUtils = { isExistUser, createAgent, userRole };
+const UserUtils = { isExistUser, createAgent, userRole }
+
+module.exports = UserUtils;
