@@ -25,6 +25,8 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  orders Order[]
+
   @@map("users")
 }
 
@@ -56,12 +58,16 @@ model MealItem {
   otherItem2AvailableMeals AvailableMealPerDay[] @relation("OtherItem2Relation")
   otherItem3AvailableMeals AvailableMealPerDay[] @relation("OtherItem3Relation")
 
+  userChosenMeal1 Order[] @relation("chosenMealItem1Relation")
+  userChosenMeal2 Order[] @relation("chosenMealItem2Relation")
+  userChosenMeal3 Order[] @relation("chosenMealItem3Relation")
+
   @@unique([name, mealCategoryId])
   @@map("meal_items")
 }
 
 model AvailableMealPerDay {
-  id      String @id @default(uuid())
+  id      String   @id @default(uuid())
   dayName DAY_LIST @unique @map("day_name")
 
   riceId String
@@ -83,6 +89,31 @@ model AvailableMealPerDay {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("available_meal_per_day")
+}
+
+model Order {
+  id      String   @id @default(uuid())
+  dayName DAY_LIST @map("day_name")
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  date String
+
+  chosenMealId1 String?
+  chosenMeal1   MealItem? @relation("chosenMealItem1Relation", fields: [chosenMealId1], references: [id])
+
+  chosenMealId2 String?
+  chosenMeal2   MealItem? @relation("chosenMealItem2Relation", fields: [chosenMealId2], references: [id])
+
+  chosenMealId3 String?
+  chosenMeal3   MealItem? @relation("chosenMealItem3Relation", fields: [chosenMealId3], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([dayName, date])
+  @@map("orders")
 }
 
 enum USER_ROLE {

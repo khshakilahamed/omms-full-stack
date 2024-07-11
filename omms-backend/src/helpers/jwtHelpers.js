@@ -20,6 +20,6 @@ const verifyToken = (token, secret) => {
         throw Error(error)
     }
 };
+const jwtHelpers = { createToken, verifyToken }
 
-
-exports.jwtHelpers = { createToken, verifyToken }
+module.exports = jwtHelpers
