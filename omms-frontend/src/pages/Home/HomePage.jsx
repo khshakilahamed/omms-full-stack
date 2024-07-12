@@ -1,3 +1,4 @@
+import Banner from "@/components/Banner/Banner";
 import Navbar from "@/components/Navbar/Navbar";
 
 const HomePage = () => {
@@ -5,8 +6,7 @@ const HomePage = () => {
     <>
       <Navbar />
       <div className="mt-[70px]">
-        <h2>Home Page</h2>
-        <div className="max-w-screen-xl mx-auto"></div>
+        <Banner />
       </div>
     </>
   );

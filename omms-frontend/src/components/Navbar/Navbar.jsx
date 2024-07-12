@@ -1,5 +1,5 @@
 // import { useLocation } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
@@ -12,7 +12,7 @@ const Navbar = () => {
   //   console.log(location.pathname);
 
   return (
-    <nav className="bg-gray-200 fixed top-0 left-0 right-0">
+    <nav className="bg-primary/55 fixed top-0 left-0 right-0 z-40">
       <div className="max-w-screen-xl mx-auto px-2 xl:px-0">
         <div className="h-[70px] w-full flex justify-between items-center">
           <div>
@@ -27,13 +27,16 @@ const Navbar = () => {
                   <AvatarFallback>KH</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <div className=" md:hidden bg-gray-200 p-3 z-90">
+              <DropdownMenuContent className="mt-2 bg-primary/75 p-2 min-w-40">
+                <div className="md:hidden p-3 z-90">
                   <MenuItems />
+                </div>
+                <div className="text-center">
+                  <Button className="bg-secondary">Logout</Button>
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button>Login</Button>
+            <Link to={"/login"}><Button>Login</Button></Link>
           </div>
         </div>
       </div>

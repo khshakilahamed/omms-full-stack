@@ -19,7 +19,7 @@ exports.login = async (req, res, next) => {
             sendResponse(res, {
                   statusCode: httpStatus.OK,
                   success: true,
-                  message: 'Data inserted successfully',
+                  message: 'successfully logged in',
                   data: { accessToken },
             });
       } catch (error) {
