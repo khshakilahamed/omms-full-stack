@@ -1,6 +1,7 @@
+
 import DashboardLayout from "@/Layout/DashboardLayout";
-import DashboardPage from "@/pages/Dashboard/Dashboard";
-import HomePage from "@/pages/Home/Home";
+import DashboardHomePage from "@/pages/DashboardHome/DashboardHomePage";
+import HomePage from "@/pages/Home/HomePage";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <DashboardPage />,
+        element: <DashboardHomePage />,
       },
     ],
   },

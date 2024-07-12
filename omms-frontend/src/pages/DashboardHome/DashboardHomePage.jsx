@@ -1,4 +1,4 @@
-const DashboardPage = () => {
+const DashboardHomePage = () => {
     return (
         <div className="w-full h-full flex items-center justify-center">
             <h2>Welcome to OMMS</h2>
@@ -6,4 +6,4 @@ const DashboardPage = () => {
     );
 };
 
-export default DashboardPage;
+export default DashboardHomePage;
