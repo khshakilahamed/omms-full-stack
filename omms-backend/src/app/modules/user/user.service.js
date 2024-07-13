@@ -117,6 +117,14 @@ exports.updateUserById = async (id, userUpdatedData) => {
       id,
     },
   });
+  
+
+  if (userUpdatedData["email"]) {
+    userUpdatedData["email"] = isUserExist["email"];
+  }
+  if (userUpdatedData["password"]) {
+    userUpdatedData["password"] = isUserExist["password"];
+  }
 
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');

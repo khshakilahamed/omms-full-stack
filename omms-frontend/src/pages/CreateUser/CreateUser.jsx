@@ -25,7 +25,7 @@ import {
 import { userRole } from "@/constants/userRole";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const formSchema = z.object({
+const userFormSchema = z.object({
   name: z.string({
     message: "Name is required",
   }),
@@ -45,7 +45,7 @@ const CreateUserPage = () => {
   const { toast } = useToast();
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(userFormSchema),
     defaultValues: {
       name: "",
       email: "",

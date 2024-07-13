@@ -6,6 +6,7 @@ import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import CreateUserPage from "@/pages/CreateUser/CreateUser";
 import UserListPage from "@/pages/UserList/UserListPage";
+import EditUser from "@/pages/EditUser/EditUser";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/user-list",
         element: <UserListPage />,
+      },
+      {
+        path: "/dashboard/edit-user/:id",
+        element: <EditUser />,
       },
     ],
   },

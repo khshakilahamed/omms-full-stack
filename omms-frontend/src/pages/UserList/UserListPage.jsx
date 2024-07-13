@@ -25,6 +25,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const retrieveUsers = async ({ queryKey }) => {
   //   const [, { page, limit }] = queryKey; // Destructure to get page and limit
@@ -163,9 +164,11 @@ const UserListPage = () => {
                   </TableCell>
                   <TableCell className="space-x-2 text-right">
                     {/* Edit Button */}
-                    <Button variant="outline" size="sm">
-                      <Edit2 />
-                    </Button>
+                    <Link to={`/dashboard/edit-user/${user?.id}`}>
+                      <Button variant="outline" size="sm">
+                        <Edit2 />
+                      </Button>
+                    </Link>
                     {/* Delete Button */}
                     <Button
                       variant="destructive"
