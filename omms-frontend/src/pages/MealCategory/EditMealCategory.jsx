@@ -63,10 +63,7 @@ const EditMealCategoryPage = () => {
   const form = useForm({
     resolver: zodResolver(mealCategoryFormSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      role: "",
-      isBanned: false,
+      name: ""
     },
   });
 
