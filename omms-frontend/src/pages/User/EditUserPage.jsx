@@ -45,7 +45,7 @@ const retrieveUser = async ({ queryKey }) => {
   return response.data;
 };
 
-const EditUser = () => {
+const EditUserPage = () => {
   const { toast } = useToast();
   const { id } = useParams();
 
@@ -212,4 +212,4 @@ const EditUser = () => {
   );
 };
 
-export default EditUser;
+export default EditUserPage;

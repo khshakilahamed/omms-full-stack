@@ -16,14 +16,20 @@ const SideMenu = () => {
         My Order
       </NavLink>
       <NavLink
-        to="#"
+        to="/dashboard/create-meal-category"
         className="px-1 md:px-3 md:py-1 hover:bg-primary/30 transition-all duration-200 cursor-pointer text-sm md:text-base"
       >
         Create Meal Category
       </NavLink>
       <NavLink
+        to="/dashboard/meal-category-list"
+        className="px-1 md:px-3 md:py-1 hover:bg-primary/30 transition-all duration-200 cursor-pointer text-sm md:text-base"
+      >
+        Meal Category List
+      </NavLink>
+      <NavLink
         to="#"
-        className="px-1 md:px-3 md:py-1 hover:bg-primary/30 transition-all duration-200 cursor-pointe text-sm md:text-baser"
+        className="px-1 md:px-3 md:py-1 hover:bg-primary/30 transition-all duration-200 cursor-pointe text-sm md:text-base"
       >
         Create Meal Item
       </NavLink>

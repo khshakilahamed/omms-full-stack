@@ -27,17 +27,17 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const retrieveUsers = async ({ queryKey }) => {
+const retrieveData = async ({ queryKey }) => {
   //   const [, { page, limit }] = queryKey; // Destructure to get page and limit
   const params = queryKey[queryKey.length - 1];
 
-  const response = await axiosInstance.get(`/users`, {
+  const response = await axiosInstance.get(`/meal-category`, {
     params: { ...params },
   });
   return response.data;
 };
 
-const UserListPage = () => {
+const MealCategoryListPage = () => {
   const { toast } = useToast();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,17 +62,17 @@ const UserListPage = () => {
 
   // Queries to fetch data
   const {
-    data: usersData,
+    data: categoriesData,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users", { ...query }],
-    queryFn: retrieveUsers,
+    queryKey: ["meal-category", { ...query }],
+    queryFn: retrieveData,
   });
 
   const { mutate } = useMutation({
     mutationFn: (id) => {
-      return axiosInstance.delete(`/users/${id}`);
+      return axiosInstance.delete(`/meal-category/${id}`);
     },
     onSuccess: () => {
       toast({
@@ -83,7 +83,7 @@ const UserListPage = () => {
     },
   });
 
-  const { data: users, meta } = usersData?.data || {};
+  const { data: categories, meta } = categoriesData?.data || {};
 
   const totalPage = Math.ceil(meta?.total / limit);
 
@@ -107,11 +107,8 @@ const UserListPage = () => {
 
   // Delete confirm
   const handleDeleteConfirm = () => {
-    // Add your delete logic here
-    console.log("Item deleted");
     mutate(deleteItemId);
     setIsDialogOpen(false);
-    console.log(deleteItemId);
   };
 
   // Table items range
@@ -119,7 +116,9 @@ const UserListPage = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-primary py-5">User List</h2>
+      <h2 className="text-3xl font-bold text-primary py-5">
+        Meal Category List
+      </h2>
       <div className="flex justify-end">
         <Input
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -129,13 +128,10 @@ const UserListPage = () => {
       </div>
       <Separator className="mt-3" />
       <Table>
-        <TableCaption>A list of Users.</TableCaption>
+        <TableCaption>A list of Meal Category.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Is Banned</TableHead>
+            <TableHead>Category Name</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -146,25 +142,12 @@ const UserListPage = () => {
             </div>
           ) : (
             <>
-              {users?.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell className="font-medium">{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.role}</TableCell>
-                  <TableCell>
-                    {user.isBanned ? (
-                      <span className="bg-red-500 text-white px-3 py-1">
-                        Ban User
-                      </span>
-                    ) : (
-                      <span className="bg-green-500 text-white px-3 py-1">
-                        Active User
-                      </span>
-                    )}
-                  </TableCell>
+              {categories?.map((category) => (
+                <TableRow key={category.id}>
+                  <TableCell className="font-medium">{category.name}</TableCell>
                   <TableCell className="space-x-2 text-right">
                     {/* Edit Button */}
-                    <Link to={`/dashboard/edit-user/${user?.id}`}>
+                    <Link to={`/dashboard/meal-category-list/${category?.id}`}>
                       <Button variant="outline" size="sm">
                         <Edit2 />
                       </Button>
@@ -174,7 +157,7 @@ const UserListPage = () => {
                       variant="destructive"
                       size="sm"
                       onClick={() => {
-                        setDeleteItemId(user?.id);
+                        setDeleteItemId(category?.id);
                         setIsDialogOpen(true);
                       }}
                     >
@@ -226,4 +209,4 @@ const UserListPage = () => {
   );
 };
 
-export default UserListPage;
+export default MealCategoryListPage;
