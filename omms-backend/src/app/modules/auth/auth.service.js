@@ -23,6 +23,10 @@ exports.login = async (payload) => {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
   }
 
+  if (isExistUser.isBanned) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Your account is banned');
+  }
+
   //   console.log(isPasswordMatched);
   const accessToken = jwtHelpers.createToken(
     {

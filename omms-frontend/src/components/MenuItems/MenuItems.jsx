@@ -34,7 +34,7 @@ const MenuItems = () => {
         Create Meal For Today
       </NavLink>
       <NavLink
-        to="#"
+        to="/dashboard/create-user"
         className="px-1 md:px-3 md:py-1 hover:bg-primary/30 transition-all duration-200 cursor-pointer text-sm md:text-base"
       >
         Create User

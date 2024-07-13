@@ -6,8 +6,6 @@ const PrivateRoute = ({ children }) => {
   const { pathname } = useLocation();
   const { isLoading, user } = useSelector((state) => state.auth);
 
-  console.log(isLoading)
-
   if (isLoading) {
     return <h2>Loading...</h2>;
   }

@@ -43,7 +43,7 @@ const Navbar = () => {
               user?.email && <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar>
-                    <AvatarFallback>{userNameCharacters}</AvatarFallback>
+                    <AvatarFallback className="uppercase">{userNameCharacters}</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="mt-2 bg-primary/75 p-2 min-w-40">
