@@ -5,8 +5,20 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
 import MenuItems from "../MenuItems/MenuItems";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const user = useSelector(state => state.auth?.user)
+  const userNamesArray = user?.name ? user.name.split(" ") : [];
+  let userNameCharacters = "";
+
+  if (userNamesArray.length >= 2) {
+    userNameCharacters = `${userNamesArray[0][0]}${userNamesArray[userNamesArray.length - 1][0]}`;
+  } else if (userNamesArray.length === 1 && userNamesArray[0].length >= 2) {
+    userNameCharacters = `${userNamesArray[0][0]}${userNamesArray[0][1]}`;
+  }
+
+
   //   const location = useLocation();
   //   console.log(location);
   //   console.log(location.pathname);
@@ -21,22 +33,26 @@ const Navbar = () => {
             </NavLink>
           </div>
           <div className="flex items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar>
-                  <AvatarFallback>KH</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="mt-2 bg-primary/75 p-2 min-w-40">
-                <div className="md:hidden p-3 z-90">
-                  <MenuItems />
-                </div>
-                <div className="text-center">
-                  <Button className="bg-secondary">Logout</Button>
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Link to={"/login"}><Button>Login</Button></Link>
+            {
+              user?.email && <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Avatar>
+                    <AvatarFallback>{userNameCharacters}</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="mt-2 bg-primary/75 p-2 min-w-40">
+                  <div className="md:hidden p-3 z-90">
+                    <MenuItems />
+                  </div>
+                  <div className="text-center">
+                    <Button className="bg-secondary">Logout</Button>
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            }
+            {
+              !user?.email && <Link to={"/login"}><Button>Login</Button></Link>
+            }
           </div>
         </div>
       </div>

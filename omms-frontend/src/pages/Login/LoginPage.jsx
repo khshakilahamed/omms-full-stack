@@ -18,6 +18,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { setToLocalStorage } from "@/utils/local-storage";
 import { authKey } from "@/constants/storageKey";
+import { decodedToken } from "@/utils/jwt";
+import { useDispatch } from "react-redux";
 
 const formSchema = z.object({
       email: z.string().email({
@@ -31,6 +33,7 @@ const formSchema = z.object({
 const LoginPage = () => {
       const { toast } = useToast();
       const navigate = useNavigate();
+      const dispatch = useDispatch();
       const form = useForm({
             resolver: zodResolver(formSchema),
             defaultValues: {
@@ -45,9 +48,15 @@ const LoginPage = () => {
             },
             onSuccess: (response) => {
                   // form.reset();
-                  setToLocalStorage(authKey, response?.data?.data?.accessToken)
+                  const accessToken = response?.data?.data?.accessToken;
+                  setToLocalStorage(authKey, accessToken);
+                  const user = decodedToken(accessToken);
                   toast({ title: "Successfully logged in" })
                   navigate("/dashboard")
+                  dispatch({
+                        user: user,
+                        accessToken: accessToken
+                  })
             },
       })
 

@@ -27,6 +27,7 @@ exports.login = async (payload) => {
   const accessToken = jwtHelpers.createToken(
     {
       userId: isExistUser.id,
+      name: isExistUser.name,
       email: isExistUser.email,
       role: isExistUser.role,
     },
