@@ -5,10 +5,12 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
 import MenuItems from "../MenuItems/MenuItems";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/slices/authSlice";
 
 const Navbar = () => {
-  const user = useSelector(state => state.auth?.user)
+  const user = useSelector(state => state.auth?.user);
+  const dispatch = useDispatch();
   const userNamesArray = user?.name ? user.name.split(" ") : [];
   let userNameCharacters = "";
 
@@ -22,6 +24,10 @@ const Navbar = () => {
   //   const location = useLocation();
   //   console.log(location);
   //   console.log(location.pathname);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  }
 
   return (
     <nav className="bg-primary/55 fixed top-0 left-0 right-0 z-40">
@@ -45,7 +51,7 @@ const Navbar = () => {
                     <MenuItems />
                   </div>
                   <div className="text-center">
-                    <Button className="bg-secondary">Logout</Button>
+                    <Button className="bg-secondary" onClick={handleLogout}>Logout</Button>
                   </div>
                 </DropdownMenuContent>
               </DropdownMenu>
