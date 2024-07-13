@@ -17,6 +17,7 @@ exports.auth = (...requiredRoles) => async (req, res, next) => {
         if (!token) {
             throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
         }
+
         // verify token
         let verifiedUser = null;
         verifiedUser = jwtHelpers.verifyToken(token, config.jwt.secret);

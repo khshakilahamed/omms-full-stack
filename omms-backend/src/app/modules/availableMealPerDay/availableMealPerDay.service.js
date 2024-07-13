@@ -5,7 +5,7 @@ const paginationHelpers = require("../../../helpers/paginationHelper");
 const { availableMealPerDaySearchableFields } = require("./availableMealPerDay.constant");
 
 exports.createAvailableMealPerDay = async (payload) => {
-  const { dayName, riceId, proteinMealId, otherItemId1, otherItemId2, otherItemId3, } = payload;
+  const { dayName, riceId, proteinMealId, otherItemId1, otherItemId2, otherItemId3 } = payload;
 
   // if (!name || !mealCategoryId) {
   //   throw new ApiError(httpStatus.BAD_REQUEST, 'Meal name and category ID are required');

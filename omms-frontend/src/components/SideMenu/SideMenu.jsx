@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const MenuItems = () => {
+const SideMenu = () => {
   return (
     <ul className="flex flex-col gap-2">
       <NavLink
@@ -40,7 +40,7 @@ const MenuItems = () => {
         Create User
       </NavLink>
       <NavLink
-        to="#"
+        to="/dashboard/user-list"
         className="px-1 md:px-3 md:py-1 hover:bg-primary/30 transition-all duration-200 cursor-pointer text-sm md:text-base"
       >
         User List
@@ -61,4 +61,4 @@ const MenuItems = () => {
   );
 };
 
-export default MenuItems;
+export default SideMenu;

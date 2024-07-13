@@ -2,24 +2,29 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
-import MenuItems from "../MenuItems/MenuItems";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/slices/authSlice";
+import SideMenu from "../SideMenu/SideMenu";
 
 const Navbar = () => {
-  const user = useSelector(state => state.auth?.user);
+  const user = useSelector((state) => state.auth?.user);
   const dispatch = useDispatch();
   const userNamesArray = user?.name ? user.name.split(" ") : [];
   let userNameCharacters = "";
 
   if (userNamesArray.length >= 2) {
-    userNameCharacters = `${userNamesArray[0][0]}${userNamesArray[userNamesArray.length - 1][0]}`;
+    userNameCharacters = `${userNamesArray[0][0]}${
+      userNamesArray[userNamesArray.length - 1][0]
+    }`;
   } else if (userNamesArray.length === 1 && userNamesArray[0].length >= 2) {
     userNameCharacters = `${userNamesArray[0][0]}${userNamesArray[0][1]}`;
   }
-
 
   //   const location = useLocation();
   //   console.log(location);
@@ -27,7 +32,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-  }
+  };
 
   return (
     <nav className="bg-primary/55 fixed top-0 left-0 right-0 z-40">
@@ -39,26 +44,34 @@ const Navbar = () => {
             </NavLink>
           </div>
           <div className="flex items-center">
-            {
-              user?.email && <DropdownMenu>
+            {user?.email && (
+              <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar>
-                    <AvatarFallback className="uppercase">{userNameCharacters}</AvatarFallback>
+                    <AvatarFallback className="uppercase">
+                      {userNameCharacters}
+                    </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="mt-2 bg-primary/75 p-2 min-w-40">
+                  <DropdownMenuLabel>Name: {user?.name}</DropdownMenuLabel>
+                  <DropdownMenuLabel>Email: {user?.email}</DropdownMenuLabel>
                   <div className="md:hidden p-3 z-90">
-                    <MenuItems />
+                    <SideMenu />
                   </div>
                   <div className="text-center">
-                    <Button className="bg-secondary" onClick={handleLogout}>Logout</Button>
+                    <Button className="bg-secondary" onClick={handleLogout}>
+                      Logout
+                    </Button>
                   </div>
                 </DropdownMenuContent>
               </DropdownMenu>
-            }
-            {
-              !user?.email && <Link to={"/login"}><Button>Login</Button></Link>
-            }
+            )}
+            {!user?.email && (
+              <Link to={"/login"}>
+                <Button>Login</Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

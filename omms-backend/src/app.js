@@ -20,7 +20,7 @@ app.use('*', cors(corsOptions));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/user", userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/meal-category", mealCategoryRoutes);
 app.use("/api/meal-item", mealItemRoutes);

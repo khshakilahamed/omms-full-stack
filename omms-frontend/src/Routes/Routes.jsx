@@ -5,6 +5,7 @@ import LoginPage from "@/pages/Login/LoginPage";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import CreateUserPage from "@/pages/CreateUser/CreateUser";
+import UserListPage from "@/pages/UserList/UserListPage";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/create-user",
         element: <CreateUserPage />,
+      },
+      {
+        path: "/dashboard/user-list",
+        element: <UserListPage />,
       },
     ],
   },

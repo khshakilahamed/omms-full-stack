@@ -57,7 +57,7 @@ const CreateUserPage = () => {
 
   const { mutate, error, isLoading } = useMutation({
     mutationFn: (userData) => {
-      return axiosInstance.post(`/user`, userData);
+      return axiosInstance.post(`/users`, userData);
     },
     onSuccess: () => {
       toast({
@@ -73,6 +73,7 @@ const CreateUserPage = () => {
 
   return (
     <div className="w-3/4">
+      <h2 className="text-3xl font-bold text-primary py-5">Create User</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           {/* Name field */}
