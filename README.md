@@ -121,3 +121,141 @@ yarn dev
 
 ### Logout Button
 ![Alt text](./readmeImages/logout-button.png)
+
+
+## Installation and setup - Backend
+How to install-
+
+```npm
+npm install
+```
+
+or,
+
+```npm
+yarn
+```
+
+setup .env file-
+
+```env
+DATABASE_URL=<your database url>
+BCRYPT_SALT_ROUNDS=10
+NODE_ENV=development
+PORT=5000
+
+JWT_SECRET=<your jwt secret>
+JWT_REFRESH_SECRET=<your jwt refresh secret>
+JWT_EXPIRES_IN=30d
+JWT_REFRESH_EXPIRES_IN=365d
+```
+
+run project-
+
+```npm
+npm run dev
+```
+or,
+
+```yarn
+yarn dev
+```
+
+
+## Backend Functional Requirements
+
+### General User
+- General User can login.
+- General User can view daily meal
+- General User can order
+- General User can view orders(own)
+
+### Admin User
+- Admin can login.
+- Admin can create user
+- Admin can update user
+- Admin can delete user
+- Admin can ban user
+- Admin can view user details
+
+- Admin can create meal category
+- Admin can update meal category
+- Admin can delete meal category
+- Admin can view meal category details
+
+- Admin can create meal item
+- Admin can update meal item
+- Admin can delete meal item
+- Admin can view meal item details
+
+- Admin can create meal
+- Admin can update meal
+- Admin can delete meal
+- Admin can view meal details
+
+- Admin can create meal for a day
+- Admin can update meal for a day
+- Admin can delete meal for a day
+- Admin can view meal for a day details
+
+- Admin can create order
+- Admin can update order
+- Admin can delete order
+- Admin can view order(own)
+- Admin can view all orders
+
+## API Endpoints
+
+### Auth
+
+- `POST /auth/login`
+
+### User
+
+- `POST /users`
+- `GET /users/`
+- `GET /users/searchTerm=shakil@gmail.com`
+- `GET /users/:id`
+- `PATCH /users/:id`
+- `DELETE /users/:id`
+
+### Meal Category
+
+- `POST /meal-category`
+- `GET /meal-category/`
+- `GET /meal-category/searchTerm=starch`
+- `GET /meal-category/:id`
+- `PATCH /meal-category/:id`
+- `DELETE /meal-category/:id`
+
+### Meal Item
+
+- `POST /meal-item`
+- `GET /meal-item/`
+- `GET /meal-item/searchTerm=rice`
+- `GET /meal-item/:id`
+- `PATCH /meal-item/:id`
+- `DELETE /meal-item/:id`
+
+### Meal (available meal per day)
+
+- `POST /available-meal-per-day`
+- `GET /available-meal-per-day/`
+- `GET /available-meal-per-day/searchTerm=sunday`
+- `GET /available-meal-per-day/:id`
+- `PATCH /available-meal-per-day/:id`
+- `DELETE /available-meal-per-day/:id`
+
+### Order
+
+- `POST /orders`
+- `GET /orders/`
+- `GET /orders/searchTerm=sunday`
+- `GET /orders/my-order`
+- `GET /orders/:id`
+- `PATCH /orders/:id`
+- `DELETE /orders/:id`
+
+## ER Diagram
+[ER Diagram Link](https://drive.google.com/file/d/14mOEiv4U1SYmNrwrLLufgWtrhTOTd8D3/view?usp=sharing)
+![Alt text](./readmeImages/er-diagram-omms.drawio.png)
