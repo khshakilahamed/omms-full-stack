@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar/Navbar";
 import SideMenu from "@/components/SideMenu/SideMenu";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
   return (
@@ -10,6 +10,9 @@ const DashboardLayout = () => {
         <div className="w-full flex relative">
           <aside className="py-3 hidden md:block w-[250px]  max-h-svh overflow-y-scroll fixed top-[70px] bottom-0">
             <nav className="px-3 pt-10">
+              <Link to="/dashboard" >
+                <h2 className="text-2xl font-bold p-4 text-primary">Dashboard</h2>
+              </Link>
               <SideMenu />
             </nav>
           </aside>

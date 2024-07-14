@@ -54,6 +54,7 @@ model MealItem {
 
   riceAvailableMeals       AvailableMealPerDay[] @relation("RiceRelation")
   proteinAvailableMeals    AvailableMealPerDay[] @relation("ProteinMealRelation")
+  vegetableAvailableMeals  AvailableMealPerDay[] @relation("vegetableMealRelation")
   otherItem1AvailableMeals AvailableMealPerDay[] @relation("OtherItem1Relation")
   otherItem2AvailableMeals AvailableMealPerDay[] @relation("OtherItem2Relation")
   otherItem3AvailableMeals AvailableMealPerDay[] @relation("OtherItem3Relation")
@@ -75,6 +76,9 @@ model AvailableMealPerDay {
 
   proteinMealId String
   proteinMeal   MealItem @relation("ProteinMealRelation", fields: [proteinMealId], references: [id])
+
+  vegetableMealId String?
+  vegetableMeal   MealItem? @relation("vegetableMealRelation", fields: [vegetableMealId], references: [id])
 
   otherItemId1 String?
   otherItem1   MealItem? @relation("OtherItem1Relation", fields: [otherItemId1], references: [id])

@@ -25,25 +25,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { z } from "zod";
-
-const userFormSchema = z.object({
-  name: z.string({
-    message: "Name is required",
-  }),
-  email: z.string().email({
-    message: "Email is required",
-  }),
-  role: z.string({
-    message: "User role is required",
-  }),
-  isBanned: z.boolean().default(false).optional(),
-});
-
-const retrieveUser = async ({ queryKey }) => {
-  const response = await axiosInstance.get(`/users/${queryKey[1]}`);
-  return response.data;
-};
+import { retrieveUser, userFormSchema } from "./user.utils";
 
 const EditUserPage = () => {
   const { toast } = useToast();

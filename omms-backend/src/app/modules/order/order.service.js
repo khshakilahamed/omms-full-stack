@@ -17,6 +17,7 @@ exports.createOrder = async (payload) => {
     throw new ApiError(httpStatus.CONFLICT, "Your order already exist");
   }
 
+
   const result = await prisma.order.create({
     data: payload,
     include: {
@@ -52,6 +53,64 @@ exports.getAllOrders = async (filters, options) => {
         [key]: {
           equals: filterData[key],
           mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  // console.log(JSON.stringify(andConditions))
+
+  const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
+
+  const result = await prisma.order.findMany({
+    include: {
+      chosenMeal1: true,
+      chosenMeal2: true,
+      chosenMeal3: true,
+      user: true
+    },
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+  });
+
+  const total = await prisma.order.count({ where: whereConditions });
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: result,
+  };
+};
+
+exports.getMyOrders = async (filters, options) => {
+  const { limit, page, skip, sortBy, sortOrder } = paginationHelpers.calculatePagination(options);
+  const { searchTerm, ...filterData } = filters;
+
+  const andConditions = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: orderSearchableFields.map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map(key => ({
+        [key]: {
+          equals: filterData[key]
         },
       })),
     });

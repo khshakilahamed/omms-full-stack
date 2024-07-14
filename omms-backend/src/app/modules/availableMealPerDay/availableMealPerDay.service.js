@@ -5,7 +5,7 @@ const paginationHelpers = require("../../../helpers/paginationHelper");
 const { availableMealPerDaySearchableFields } = require("./availableMealPerDay.constant");
 
 exports.createAvailableMealPerDay = async (payload) => {
-  const { dayName, riceId, proteinMealId, otherItemId1, otherItemId2, otherItemId3 } = payload;
+  const { dayName, riceId, proteinMealId } = payload;
 
   // if (!name || !mealCategoryId) {
   //   throw new ApiError(httpStatus.BAD_REQUEST, 'Meal name and category ID are required');
@@ -37,43 +37,28 @@ exports.createAvailableMealPerDay = async (payload) => {
     }
   });
 
-  if (riceDetails.mealCategory.name !== 'starch') {
+  if (riceDetails.mealCategory.name.toLocaleLowerCase() !== 'starch') {
     throw new ApiError(httpStatus.NOT_ACCEPTABLE, 'Your selected rice item is not in starch category');
   }
 
-  // verify the protein id is in protein category or not
-  const proteinDetails = await prisma.mealItem.findFirst({
-    include: {
-      mealCategory: true
-    },
-    where: {
-      id: riceId
-    }
-  });
-
   // verify the protein id is already exist 2 times in a week
-  const countProtein = await prisma.availableMealPerDay.findMany({
+  const countSameMeal = await prisma.availableMealPerDay.findMany({
     where: {
+      riceId: riceId, 
       proteinMealId: proteinMealId
     }
   })
 
-  if (countProtein.length >= 2) {
-    throw new ApiError(httpStatus.NOT_ACCEPTABLE, 'You can not add same protein item more than two days');
+  if (countSameMeal.length >= 2) {
+    throw new ApiError(httpStatus.NOT_ACCEPTABLE, 'You can not add same meal more than two days');
   }
 
   const result = await prisma.availableMealPerDay.create({
-    data: {
-      dayName,
-      riceId,
-      proteinMealId,
-      otherItemId1,
-      otherItemId2,
-      otherItemId3
-    },
+    data: payload,
     include: {
       rice: true,
       proteinMeal: true,
+      vegetableMeal: true,
       otherItem1: true,
       otherItem2: true,
       otherItem3: true,
@@ -111,14 +96,15 @@ exports.getAllAvailableMealsPerDay = async (filters, options) => {
     });
   }
 
-  // console.log(JSON.stringify(andConditions))
-
+  
   const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
+  // console.log(JSON.stringify(andConditions))
 
   const result = await prisma.availableMealPerDay.findMany({
     include: {
       rice: true,
       proteinMeal: true,
+      vegetableMeal: true,
       otherItem1: true,
       otherItem2: true,
       otherItem3: true,

@@ -16,18 +16,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { z } from "zod";
+import { mealCategoryFormSchema, retrieveMealCategory } from "./MealCategory.utils";
 
-const mealCategoryFormSchema = z.object({
-  name: z.string({
-    message: "Meal category name is required",
-  }),
-});
-
-const retrieveUser = async ({ queryKey }) => {
-  const response = await axiosInstance.get(`/meal-category/${queryKey[1]}`);
-  return response.data;
-};
 
 const EditMealCategoryPage = () => {
   const { toast } = useToast();
@@ -35,11 +25,11 @@ const EditMealCategoryPage = () => {
 
   const {
     data: mealCategoryData,
-    isLoading,
+    isPending,
     refetch,
   } = useQuery({
     queryKey: ["meal-category", id],
-    queryFn: retrieveUser,
+    queryFn: retrieveMealCategory,
   });
 
   const mealCategory = mealCategoryData?.data;
@@ -47,7 +37,7 @@ const EditMealCategoryPage = () => {
   const {
     mutate,
     error,
-    isLoading: updateIsLoading,
+    isPending: updateIsLoading,
   } = useMutation({
     mutationFn: (data) => {
       return axiosInstance.patch(`/meal-category/${id}`, data);
@@ -85,7 +75,7 @@ const EditMealCategoryPage = () => {
     <div className="w-3/4">
       <h2 className="text-3xl font-bold text-primary py-5">Update Meal Category</h2>
 
-      {isLoading ? (
+      {isPending ? (
         <div className="w-full h-[150px] flex justify-center items-center">
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         </div>

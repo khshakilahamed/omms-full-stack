@@ -1,5 +1,4 @@
 
-
 exports.orderSearchableFields = ['dayName'];
 
-exports.orderFilterableFields = ['searchTerm', 'dayName', 'date'];
+exports.orderFilterableFields = ['searchTerm', 'dayName', 'date', 'userId'];

@@ -10,7 +10,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/axios/axiosInstance";
 import { useToast } from "@/components/ui/use-toast";
@@ -24,22 +23,7 @@ import {
 } from "@/components/ui/select";
 import { userRole } from "@/constants/userRole";
 import { Checkbox } from "@/components/ui/checkbox";
-
-const userFormSchema = z.object({
-  name: z.string({
-    message: "Name is required",
-  }),
-  email: z.string().email({
-    message: "Email is required",
-  }),
-  password: z.string({
-    message: "Password is required",
-  }),
-  role: z.string({
-    message: "User role is required",
-  }),
-  isBanned: z.boolean().default(false).optional(),
-});
+import { userFormSchema } from "./user.utils";
 
 const CreateUserPage = () => {
   const { toast } = useToast();
@@ -113,7 +97,7 @@ const CreateUserPage = () => {
                 <FormLabel>Role</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>

@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 const sendResponse = require("../../../shared/sendResponse");
 const { pick } = require("../../../shared/pick");
-const { createOrder, getAllOrders, getOrderById, updateOrderById, deleteOrder } = require("./order.service");
+const { createOrder, getAllOrders, getOrderById, updateOrderById, deleteOrder, getMyOrders } = require("./order.service");
 const { orderFilterableFields } = require("./order.constant");
 
 exports.createOrder = async (req, res, next) => {
@@ -22,8 +22,27 @@ exports.createOrder = async (req, res, next) => {
       }
 }
 
+exports.getMyOrders = async (req, res, next) => {
+      try {
+            req.query['userId'] = req?.user?.userId
+            const filters = pick(req.query, orderFilterableFields);
+            const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+            const result = await getMyOrders(filters, options);
+
+            sendResponse(res, {
+                  statusCode: httpStatus.OK,
+                  success: true,
+                  message: 'Data retrieved successfully',
+                  data: result,
+            });
+      } catch (error) {
+            next(error)
+      }
+}
+
 exports.getAllOrders = async (req, res, next) => {
       try {
+            console.log(req.user)
             const filters = pick(req.query, orderFilterableFields);
             const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
             const result = await getAllOrders(filters, options);

@@ -26,9 +26,10 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { retrieveUsers } from "./user.utils";
+import { retrieveMealCategories } from "./MealCategory.utils";
 
-const UserListPage = () => {
+
+const MealCategoryListPage = () => {
   const { toast } = useToast();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,6 +40,7 @@ const UserListPage = () => {
   const query = {};
   query["limit"] = limit;
   query["page"] = page;
+  query["sortOrder"] = 'asc';
 
   /* debounced for searching delay */
   const debouncedSearchTerm = useDebounced({
@@ -53,17 +55,20 @@ const UserListPage = () => {
 
   // Queries to fetch data
   const {
-    data: usersData,
+    data: categoriesData,
     isPending,
     refetch,
   } = useQuery({
-    queryKey: ["users", { ...query }],
-    queryFn: retrieveUsers,
+    queryKey: ["meal-category", { ...query }],
+    queryFn: retrieveMealCategories,
   });
 
+  const { data: categories, meta } = categoriesData?.data || {};
+
+  // delete data
   const { mutate } = useMutation({
     mutationFn: (id) => {
-      return axiosInstance.delete(`/users/${id}`);
+      return axiosInstance.delete(`/meal-category/${id}`);
     },
     onSuccess: () => {
       toast({
@@ -72,9 +77,15 @@ const UserListPage = () => {
       setIsDialogOpen("");
       refetch(); // Refetch data after successful deletion
     },
+    onError: (error) => {
+      const errorMessage = error?.response?.data?.message;
+      toast({
+        description: <span className="text-red-500"> ❌ {errorMessage}</span>,
+      });
+    }
   });
 
-  const { data: users, meta } = usersData?.data || {};
+  
 
   const totalPage = Math.ceil(meta?.total / limit);
 
@@ -98,7 +109,6 @@ const UserListPage = () => {
 
   // Delete confirm
   const handleDeleteConfirm = () => {
-    // Add your delete logic here
     mutate(deleteItemId);
     setIsDialogOpen(false);
   };
@@ -108,7 +118,9 @@ const UserListPage = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-primary py-5">User List</h2>
+      <h2 className="text-3xl font-bold text-primary py-5">
+        Meal Category List
+      </h2>
       <div className="flex justify-end">
         <Input
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -117,14 +129,11 @@ const UserListPage = () => {
         />
       </div>
       <Separator className="mt-3" />
-      <Table className="overflow-x-scroll">
-        <TableCaption>A list of Users.</TableCaption>
+      <Table>
+        <TableCaption>A list of Meal Category.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Is Banned</TableHead>
+            <TableHead>Category Name</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -135,25 +144,12 @@ const UserListPage = () => {
             </div>
           ) : (
             <>
-              {users?.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell className="font-medium">{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.role}</TableCell>
-                  <TableCell>
-                    {user.isBanned ? (
-                      <span className="bg-red-500 text-white px-3 py-1">
-                        Ban User
-                      </span>
-                    ) : (
-                      <span className="bg-green-500 text-white px-3 py-1">
-                        Active User
-                      </span>
-                    )}
-                  </TableCell>
+              {categories?.map((category) => (
+                <TableRow key={category.id}>
+                  <TableCell className="font-medium">{category.name}</TableCell>
                   <TableCell className="space-x-2 text-right">
                     {/* Edit Button */}
-                    <Link to={`/dashboard/edit-user/${user?.id}`}>
+                    <Link to={`/dashboard/edit-meal-category/${category?.id}`}>
                       <Button variant="outline" size="sm">
                         <Edit2 />
                       </Button>
@@ -163,7 +159,7 @@ const UserListPage = () => {
                       variant="destructive"
                       size="sm"
                       onClick={() => {
-                        setDeleteItemId(user?.id);
+                        setDeleteItemId(category?.id);
                         setIsDialogOpen(true);
                       }}
                     >
@@ -178,9 +174,8 @@ const UserListPage = () => {
         {range && (
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={4}>
-                Page: {page} | {range?.start} - {range?.end} of {meta?.total}{" "}
-                Users
+              <TableCell>
+                Page: {page} | {range?.start} - {range?.end} of {meta?.total} items
               </TableCell>
               <TableCell className="text-right">
                 <div className="space-x-2 inline-block">
@@ -215,4 +210,4 @@ const UserListPage = () => {
   );
 };
 
-export default UserListPage;
+export default MealCategoryListPage;

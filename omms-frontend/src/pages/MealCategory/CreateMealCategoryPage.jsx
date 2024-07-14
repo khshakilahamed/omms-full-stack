@@ -10,17 +10,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/axios/axiosInstance";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
+import { mealCategoryFormSchema } from "./MealCategory.utils";
 
-const mealCategoryFormSchema = z.object({
-  name: z.string({
-    message: "Meal category name is required",
-  }),
-});
 
 const CreateMealCategoryPage = () => {
   const { toast } = useToast();
@@ -32,7 +27,7 @@ const CreateMealCategoryPage = () => {
     },
   });
 
-  const { mutate, error, isLoading } = useMutation({
+  const { mutate, error, isPending } = useMutation({
     mutationFn: (data) => {
       return axiosInstance.post(`/meal-category`, data);
     },
@@ -41,7 +36,12 @@ const CreateMealCategoryPage = () => {
         description: "Meal category created",
       });
       form.reset();
-    },
+    },onError: (error) => {
+      const errorMessage = error?.response?.data?.message;
+      toast({
+        description: <span className="text-red-500"> ❌ {errorMessage}</span>,
+      });
+    }
   });
 
   function onSubmit(values) {
@@ -68,9 +68,9 @@ const CreateMealCategoryPage = () => {
             )}
           />
           <p className="text-red-400">{error?.response?.data?.message}</p>
-          <p>{isLoading && "logging..."}</p>
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? (
+          <p>{isPending && "submitting..."}</p>
+          <Button type="submit" disabled={isPending}>
+            {isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
                 <span>Please wait</span>
