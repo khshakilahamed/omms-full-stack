@@ -75,3 +75,49 @@ or,
 ```yarn
 yarn dev
 ```
+
+## Frontend View
+### Banner
+![Alt text](./readmeImages/banner.png)
+
+### A Simple Login Page
+![Alt text](./readmeImages/login.png)
+
+### Ban User Alert Above of the Login Button
+![Alt text](./readmeImages/ban-user-alert.png)
+
+### After Login User(Admin) Will See the Dashboard
+![Alt text](./readmeImages/dashboard-after-successful-login.png)
+
+### Daily Meal Displayed based on Day
+![Alt text](./readmeImages/daily-meal-calaender.png)
+
+### Display Meal Category in the data table
+![Alt text](./readmeImages/view-meal-categories.png)
+
+### Create a Meal Item based on Meal Category
+![Alt text](./readmeImages/create-meal-item.png)
+
+### Meal Item List & Pagination is properly visible here with active next button
+![Alt text](./readmeImages/meal-item-list-with-pagination.png)
+
+### Create complete meal based on day
+![Alt text](./readmeImages/create-complete-meal.png)
+
+### Complete meal list displayed in the table
+![Alt text](./readmeImages/complete-meal-list.png)
+
+### Create user form
+![Alt text](./readmeImages/create-user-form.png)
+
+### Some users displayed in the data table
+![Alt text](./readmeImages/some-users.png)
+
+### Order List
+![Alt text](./readmeImages/order-list.png)
+
+### A Modal will be open before delete something.
+![Alt text](./readmeImages/modal-for-delete-confirmation.png)
+
+### Logout Button
+![Alt text](./readmeImages/logout-button.png)

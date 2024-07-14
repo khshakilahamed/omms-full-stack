@@ -39,7 +39,7 @@ const CreateUserPage = () => {
     },
   });
 
-  const { mutate, error, isLoading } = useMutation({
+  const { mutate, error, isPending } = useMutation({
     mutationFn: (userData) => {
       return axiosInstance.post(`/users`, userData);
     },
@@ -149,9 +149,9 @@ const CreateUserPage = () => {
             )}
           />
           <p className="text-red-400">{error?.response?.data?.message}</p>
-          <p>{isLoading && "logging..."}</p>
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? (
+          <p>{isPending && "logging..."}</p>
+          <Button type="submit" disabled={isPending}>
+            {isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
                 <span>Please wait</span>
